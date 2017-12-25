@@ -1,0 +1,1 @@
+This is a director for picture documents.
