@@ -174,7 +174,7 @@ public class BeanParameterValidator {
   }
 
   /**
-   * 深度判断
+   * deep checking
    * @param object
    * @param field
    * @throws BusinessException
@@ -202,10 +202,6 @@ public class BeanParameterValidator {
     checkDeep(object);
     return;
   }
-
-  /**
-   * 执行泛型M的field对应的get方法
-   */
 
   public static <M> Object executeGetter(Field field, M m) {
     try {
