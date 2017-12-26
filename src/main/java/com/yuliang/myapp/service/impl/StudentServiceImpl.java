@@ -30,7 +30,13 @@ public class StudentServiceImpl implements StudentService{
   @Override
   public List<Student> getAllStudent() {
     log.info("Get all Students...");
-    return studentRepository.findAll();
+    List<Student> students = studentRepository.findAll();
+    for (Student student : students) {
+      if (student.getId() > 1000) {
+        student.setPassportNumber(student.getName() + student.getPassportNumber());
+      }
+    }
+    return students;
   }
 
   @Override
