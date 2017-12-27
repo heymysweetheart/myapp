@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -36,9 +37,9 @@ public class StudentServiceImplTest {
   @Mock
   private RestTemplate restTemplate;
 
-//  @Spy
-  @Mock
-  private InnerService innerService;
+  //This dependency tended to be tested for real.
+  @Spy
+  private InnerService innerService = new InnerServiceImpl();
 
   @InjectMocks
   private StudentServiceImpl studentService;
@@ -50,6 +51,7 @@ public class StudentServiceImplTest {
 
   @Test
   public void methodForTest() {
+
 
     Student student = new Student();
     student.setId(25L);
@@ -76,7 +78,6 @@ public class StudentServiceImplTest {
 
   @Test
   public void methodForTest1() {
-
     Student student = new Student();
     student.setId(25L);
     student.setName("jack");
@@ -97,7 +98,6 @@ public class StudentServiceImplTest {
     when(studentRepository.findAll()).thenReturn(existingStudents);
     when(studentRepository.findByPassportNumber(anyString())).thenReturn(existingStudents);
     when(studentRepository.save(student)).thenReturn(student);
-    when(innerService.checkStudent(student)).thenReturn(true);
 
     Student studentResult = studentService.methodForTest(STUDENT_PASSPORT_NUMBER);
     Assert.assertEquals(STUDENT_PASSPORT_NUMBER, studentResult.getPassportNumber());
