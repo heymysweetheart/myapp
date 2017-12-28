@@ -94,4 +94,69 @@ public class StudentServiceImpl implements StudentService{
     }
     return null;
   }
+
+  @Override
+  public Student methodEasyToTest(String passportNumber) {
+    //This url actually will not return a Student object, this is only for unit test example. It doesn't matter in
+    // real cases, because you will find the write web service which will return the right data.
+    Student studentFromServer = restTemplate.getForObject(STUDENT_SERVER_RUL + passportNumber, Student.class);
+    List<Student> localStudents = studentRepository.findByPassportNumber(passportNumber);
+
+    //extract the computation logic into a private method and unit test it thoroughly.
+    return processData(studentFromServer, localStudents);
+  }
+
+  /**
+   * Extract the computation logic from the original piece and make data from outside as parameters of the
+   * computation logic. So we don't need to mock two many outside data to test the computation logic.
+   * @param studentFromServer
+   * @param localStudents
+   * @return
+   */
+  private Student processData(Student studentFromServer, List<Student> localStudents) {
+    if (studentFromServer != null && !UtilExample.isEmpty(studentFromServer.getName())) {
+      if (localStudents.size() < 1) {
+        studentRepository.save(studentFromServer);
+      } else {//Call another service to check student status
+        boolean isValidStudent = innerService.checkStudent(studentFromServer);
+        if (isValidStudent) {
+          innerService.sendMessage(studentFromServer);
+        } else {
+          log.info("Student form server is not valid");
+        }
+      }
+
+      return studentFromServer;
+
+    } else {
+      if(localStudents.size() > 0) return localStudents.get(0);
+    }
+    return null;
+  }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

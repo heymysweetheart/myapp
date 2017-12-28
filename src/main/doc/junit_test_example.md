@@ -12,3 +12,9 @@ We can use `@Mock` annotation and `@InjectMocks` to mimic the dependency the dep
 Difference between `@Spy` and `@Mock` is there must be a real object created when you use `@Spy`, so that we can mock
  part of the behaviours of the real object, thus retaining the rest of the original behaviours. Because there must be
   the real dependent object created, it's more difficult than using `@Mock`.
+## Code the right way
+In theory, every method need to be tested. But in reality, most of codes are difficult to test because there are 
+codes of accessing resources (either from database or from another web service) and codes of computation mingled 
+together in one method. The reason why one should decouple these two codes is because the developer should focus on 
+the logic of the computation, where most bugs occur most of the time.
+## How to test controller

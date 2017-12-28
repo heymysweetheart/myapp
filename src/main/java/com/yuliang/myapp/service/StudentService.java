@@ -24,4 +24,11 @@ public interface StudentService {
    * @return
    */
   Student methodForTest(String passportNumber);
+
+  /**
+   * A better code design compared with   Student methodForTest(String passportNumber);
+   * @param passportNumber
+   * @return
+   */
+  Student methodEasyToTest(String passportNumber);
 }
